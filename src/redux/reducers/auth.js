@@ -1,6 +1,10 @@
-import { LOGIN_SUCCESS, LOGIN_REQUEST, LOGIN_FAILURE } from '../redux/ActionTypes';
+import {
+  LOGIN_SUCCESS,
+  LOGIN_REQUEST,
+  LOGIN_FAILURE
+} from '../../constants';
 
-export const Auth = (
+export default (
   state = {
     isLoading: false,
     isAuthenticated: localStorage.getItem('token') ? true : false,
@@ -14,7 +18,7 @@ export const Auth = (
   const { type, token } = action;
   switch (type) {
     case LOGIN_REQUEST:
-      return { ...state }
+      return { ...state };
     case LOGIN_SUCCESS:
       return {
         ...state,
@@ -24,7 +28,7 @@ export const Auth = (
         token
       };
     case LOGIN_FAILURE:
-      return {...state}
+      return { ...state };
     default:
       return state;
   }

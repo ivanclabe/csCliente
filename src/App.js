@@ -7,11 +7,11 @@ import 'react-datetime/css/react-datetime.css';
 import 'react-image-lightbox/style.css';
 
 import { Provider } from 'react-redux';
-import { ConfigureStore } from './redux/configureStore'
+import store from './redux/store';
 
-const store = ConfigureStore();
+// const store = ConfigureStore();
 
-const App = () => { 
+const App = () => {
   return (
     <Provider store = {store} >
       <Router basename={process.env.PUBLIC_URL}>

@@ -301,17 +301,17 @@ export const utilityRoutes = {
 };
 
 export default [
-  homeRoutes,
-  pageRoutes,
-  chatRoutes,
-  kanbanRoutes,
-  emailRoutes,
-  authenticationRoutes,
-  ECommerceRoutes,
-  widgetsRoutes,
-  componentRoutes,
-  utilityRoutes,
-  pluginRoutes,
-  documentationRoutes,
-  changelogRoutes
+  authenticationRoutes
+  // homeRoutes,
+  // pageRoutes,
+  // chatRoutes,
+  // kanbanRoutes,
+  // emailRoutes,
+  // ECommerceRoutes,
+  // widgetsRoutes,
+  // componentRoutes,
+  // utilityRoutes,
+  // pluginRoutes,
+  // documentationRoutes,
+  // changelogRoutes
 ];

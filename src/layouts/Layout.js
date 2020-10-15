@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, withRouter } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import { CloseButton, Fade } from '../components/common/Toast';
 
@@ -7,19 +7,20 @@ import DashboardLayout from './DashboardLayout';
 import ErrorLayout from './ErrorLayout';
 
 import loadable from '@loadable/component';
+
 const AuthBasicLayout = loadable(() => import('./AuthBasicLayout'));
 const Landing = loadable(() => import('../components/landing/Landing'));
-const WizardLayout = loadable(() => import('../components/auth/wizard/WizardLayout'));
-const AuthCardRoutes = loadable(() => import('../components/auth/card/AuthCardRoutes'));
-const AuthSplitRoutes = loadable(() => import('../components/auth/split/AuthSplitRoutes'));
+// const WizardLayout = loadable(() => import('../components/auth/wizard/WizardLayout'));
+// const AuthCardRoutes = loadable(() => import('../components/auth/card/AuthCardRoutes'));
+// const AuthSplitRoutes = loadable(() => import('../components/auth/split/AuthSplitRoutes'));
 
-const Layout = () => {
+const Layout = (props) => {
   useEffect(() => {
     AuthBasicLayout.preload();
     Landing.preload();
-    WizardLayout.preload();
-    AuthCardRoutes.preload();
-    AuthSplitRoutes.preload();
+    // WizardLayout.preload();
+    // AuthCardRoutes.preload();
+    // AuthSplitRoutes.preload();
   }, []);
 
   return (
@@ -27,9 +28,9 @@ const Layout = () => {
       <Switch>
         <Route path="/landing" exact component={Landing} />
         <Route path="/authentication/basic" component={AuthBasicLayout} />
-        <Route path="/authentication/card" component={AuthCardRoutes} />
-        <Route path="/authentication/split" component={AuthSplitRoutes} />
-        <Route path="/authentication/wizard" component={WizardLayout} />
+        {/* <Route path="/authentication/card" component={AuthCardRoutes} /> */}
+        {/* <Route path="/authentication/split" component={AuthSplitRoutes} /> */}
+        {/* <Route path="/authentication/wizard" component={WizardLayout} /> */}
         <Route path="/errors" component={ErrorLayout} />
         <Route component={DashboardLayout} />
       </Switch>
@@ -39,3 +40,4 @@ const Layout = () => {
 };
 
 export default Layout;
+//export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Layout));
