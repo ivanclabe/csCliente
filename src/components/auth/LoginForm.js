@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -7,35 +7,39 @@ import { Button, Form, Row, Col, FormGroup, Input, CustomInput, Label } from 're
 
 import Divider from '../common/Divider';
 import SocialAuthButtons from './SocialAuthButtons';
-// import withRedirect from '../../hoc/withRedirect';
-import { loginUser } from '../../redux/actions/auth';
+import withRedirect from '../../hoc/withRedirect';
+import { login, logout } from '../../redux/actions/auth';
 
-const mapStateToProps = state => ({
-  auth: state.auth
-});
+const mapStateToProps = state => {
+  return state;
+};
 
 const mapDispatchToProps = dispatch => ({
-  loginUser: credentials => dispatch(loginUser(credentials))
+  loginUser: credentials => dispatch(login(credentials)),
+  logoutUser: () => dispatch(logout())
 });
 
-const LoginForm = ({ setRedirect, hasLabel, layout, auth, loginUser }) => {
+const LoginForm = ({ setRedirect, hasLabel, layout, auth, loginUser, logoutUser }) => {
   // State
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('cmvt');
+  const [password, setPassword] = useState('123');
   const [remember, setRemember] = useState(true);
   const [isDisabled, setIsDisabled] = useState(true);
 
-  // Handler
-  const handleSubmit = e => {
-    e.preventDefault();
-    toast.success(`Logged in as ${username}`);
+  const isLoggedIn = useSelector(state => state.isLoggedIn);
 
+  // Handler
+  const handleSubmit = async e => {
+    e.preventDefault();
     if (username && password) {
       loginUser({ username, password });
     }
-
-    // setRedirect(true);
   };
+
+  if (isLoggedIn) {
+    toast.success(`Logged in as ${username}`);
+    setRedirect(true);
+  }
 
   useEffect(() => {
     setIsDisabled(!username || !password);
@@ -92,14 +96,12 @@ LoginForm.propTypes = {
   setRedirect: PropTypes.func.isRequired,
   layout: PropTypes.string,
   hasLabel: PropTypes.bool,
-  auth: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      completed: PropTypes.bool.isRequired,
-      text: PropTypes.string.isRequired
-    }).isRequired
-  ).isRequired,
-  loginUser: PropTypes.func.isRequired
+  auth: PropTypes.shape({
+    isLoggendIn: PropTypes.bool.isRequired,
+    user: PropTypes.string
+  }).isRequired,
+  loginUser: PropTypes.func.isRequired,
+  logoutUser: PropTypes.func.isRequired
 };
 
 LoginForm.defaultProps = {
@@ -107,8 +109,9 @@ LoginForm.defaultProps = {
   hasLabel: false
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(LoginForm);
-// export default withRedirect(LoginForm);
+export default withRedirect(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(LoginForm)
+);

@@ -60,12 +60,14 @@
     "react-slick": "^0.25.2",
     "react-toastify": "^5.5.0",
     "react-typed": "^1.2.0",
+    "react-validation": "^3.0.7",
     "reactstrap": "^8.4.1",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "slick-carousel": "^1.8.1",
-    "uuid": "^3.4.0"
+    "uuid": "^3.4.0",
+    "validator": "^13.1.17"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -91,6 +93,7 @@
     "gulp-sass": "^4.0.2",
     "gulp-sourcemaps": "^2.6.5",
     "prettier": "1.17.1",
-    "redux-devtools": "^3.7.0"
+    "redux-devtools": "^3.7.0",
+    "redux-devtools-extension": "^2.13.8"
   }
 }

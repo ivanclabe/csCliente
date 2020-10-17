@@ -1,72 +1,44 @@
-import { LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS } from '../../constants';
-import { userServices } from '../../services';
-import { API_URL } from '../../config/env.config';
+import { LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT_SUCCESS } from '../../constants';
+import * as authService from '../../services/auth.service';
 
 export const loginRequest = credentials => ({
   type: LOGIN_REQUEST,
-  credentials
+  payload: credentials
 });
 
-export const receiveLogin = response => ({
+export const receiveLogin = token => ({
   type: LOGIN_SUCCESS,
-  token: response.token
+  payload: {
+    token
+  }
 });
 
-export const loginError = message => ({
+export const loginError = ({ message: errMessage }) => ({
   type: LOGIN_FAILURE,
-  message
+  payload: {
+    errMessage
+  }
 });
 
-export const loginUser = credentials => dispatch => {
-  dispatch(loginRequest(credentials));
-  return userServices
-    .login(credentials)
+/** ****** */
+
+export const login = ({ username, password }) => dispatch => {
+  dispatch(loginRequest({ username, password }));
+  return authService
+    .login(username, password)
     .then(response => {
-      dispatch(receiveLogin(response));
+      dispatch(receiveLogin(response, username));
+      //Promise.resolve();
     })
-    .catch(error => dispatch(loginError(error.message)));
+    .catch(error => {
+      dispatch(loginError(error));
+    });
 };
 
-export const _loginUser = credentials => {
-  alert(credentials.username);
-  return dispatch => {
-    // dispatch(loginRequest(credentials));
-    return fetch(API_URL + 'auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(credentials)
-    })
-      .then(
-        response => {
-          if (response.ok) {
-            return response;
-          } else {
-            const error = new Error('Error ' + response.status + ': ' + response.statusText);
-            error.response = response;
-            throw error;
-          }
-        },
-        error => {
-          throw error;
-        }
-      )
-      .then(response => response.json())
-      .then(response => {
-        if (response.success) {
-          // If login was successful, set the token in local storage
-          localStorage.setItem('token', response.token);
-          localStorage.setItem('credentials', JSON.stringify(credentials));
-          // Dispatch the success action
-          // dispatch(fetchFavorites());
-          dispatch(receiveLogin(response));
-        } else {
-          let error = new Error('Error ' + response.status);
-          error.response = response;
-          throw error;
-        }
-      })
-      .catch(error => dispatch(loginError(error.message)));
-  };
+export const logout = () => dispatch => {
+  return authService.logout().then(response => {
+    dispatch({
+      type: LOGOUT_SUCCESS
+    });
+  });
 };

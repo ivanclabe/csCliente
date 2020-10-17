@@ -1,1 +1,1 @@
-export * as userServices from './auth.service';
+export * from './auth.service';

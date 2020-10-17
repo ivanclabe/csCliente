@@ -1,34 +1,25 @@
-import {
-  LOGIN_SUCCESS,
-  LOGIN_REQUEST,
-  LOGIN_FAILURE
-} from '../../constants';
+import { LOGIN_SUCCESS, LOGIN_REQUEST, LOGIN_FAILURE, LOGOUT_SUCCESS } from '../../constants';
 
-export default (
-  state = {
-    isLoading: false,
-    isAuthenticated: localStorage.getItem('token') ? true : false,
-    token: localStorage.getItem('token'),
-    user: localStorage.getItem('credentials')
-      ? JSON.parse(localStorage.getItem('creds'))
-      : null
-  },
-  action
-) => {
-  const { type, token } = action;
+const token = JSON.parse(localStorage.getItem('token'));
+const initialState = token ? { isLoggendIn: true, token } : { isLoggendIn: false, token: null };
+
+export default (state = initialState, action) => {
+  const { type, payload } = action;
   switch (type) {
     case LOGIN_REQUEST:
-      return { ...state };
+      return { ...state, isLoggendIn: false, token: null };
     case LOGIN_SUCCESS:
+      const { token } = payload;
       return {
         ...state,
-        isLoading: false,
-        isAuthenticated: true,
-        errMess: '',
+        isLoggendIn: true,
         token
       };
     case LOGIN_FAILURE:
-      return { ...state };
+      const { errMessage } = payload;
+      return { ...state, isLoggendIn: false, token: null, errMessage };
+    case LOGOUT_SUCCESS:
+      return { ...state, isLoggendIn: false, token: null };
     default:
       return state;
   }

@@ -14,7 +14,7 @@ const Landing = loadable(() => import('../components/landing/Landing'));
 // const AuthCardRoutes = loadable(() => import('../components/auth/card/AuthCardRoutes'));
 // const AuthSplitRoutes = loadable(() => import('../components/auth/split/AuthSplitRoutes'));
 
-const Layout = (props) => {
+const Layout = props => {
   useEffect(() => {
     AuthBasicLayout.preload();
     Landing.preload();
@@ -34,10 +34,14 @@ const Layout = (props) => {
         <Route path="/errors" component={ErrorLayout} />
         <Route component={DashboardLayout} />
       </Switch>
-      <ToastContainer transition={Fade} closeButton={<CloseButton />} position={toast.POSITION.BOTTOM_LEFT} />
+      <ToastContainer
+        transition={Fade}
+        closeButton={<CloseButton />}
+        position={toast.POSITION.BOTTOM_LEFT}
+      />
     </Router>
   );
 };
 
-export default Layout;
+export default withRouter(Layout);
 //export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Layout));

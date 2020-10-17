@@ -242,7 +242,10 @@ export const pluginRoutes = {
     {
       to: '/plugins',
       name: 'Chart',
-      children: [{ to: '/plugins/chart', name: 'Chart Js' }, { to: '/plugins/echarts', name: 'Echarts' }]
+      children: [
+        { to: '/plugins/chart', name: 'Chart Js' },
+        { to: '/plugins/echarts', name: 'Echarts' }
+      ]
     },
     { to: '/plugins/countup', name: 'Countup' },
     { to: '/plugins/code-highlight', name: 'Code Highlight' },

@@ -31,7 +31,14 @@ const useBulkSelect = items => {
     setIsIndeterminate(!!selectedItems.length && selectedItems.length < items.length);
   }, [selectedItems, items]);
 
-  return { selectedItems, isAllSelected, isIndeterminate, toggleSelectedItem, toggleIsAllSelected, isSelectedItem };
+  return {
+    selectedItems,
+    isAllSelected,
+    isIndeterminate,
+    toggleSelectedItem,
+    toggleIsAllSelected,
+    isSelectedItem
+  };
 };
 
 export default useBulkSelect;

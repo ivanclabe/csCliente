@@ -13,7 +13,7 @@ import store from './redux/store';
 
 const App = () => {
   return (
-    <Provider store = {store} >
+    <Provider store={store}>
       <Router basename={process.env.PUBLIC_URL}>
         <Layout />
       </Router>
