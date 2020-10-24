@@ -28,7 +28,7 @@ export const login = ({ username, password }) => dispatch => {
     .login(username, password)
     .then(response => {
       dispatch(receiveLogin(response, username));
-      //Promise.resolve();
+      Promise.resolve();
     })
     .catch(error => {
       dispatch(loginError(error));

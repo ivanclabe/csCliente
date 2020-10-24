@@ -19,7 +19,10 @@ const CartNotification = () => {
       >
         {!!shoppingCart.length && (
           <span className="notification-indicator-number">
-            {shoppingCart.reduce((accumulator, currentValue) => accumulator + currentValue.quantity, 0)}
+            {shoppingCart.reduce(
+              (accumulator, currentValue) => accumulator + currentValue.quantity,
+              0
+            )}
           </span>
         )}
         <FontAwesomeIcon icon="shopping-cart" transform="shrink-7" className="fs-4" />

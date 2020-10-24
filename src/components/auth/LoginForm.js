@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, connect } from 'react-redux';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -8,15 +8,14 @@ import { Button, Form, Row, Col, FormGroup, Input, CustomInput, Label } from 're
 import Divider from '../common/Divider';
 import SocialAuthButtons from './SocialAuthButtons';
 import withRedirect from '../../hoc/withRedirect';
-import { login, logout } from '../../redux/actions/auth';
+import { login } from '../../redux/actions/auth';
 
 const mapStateToProps = state => {
   return state;
 };
 
 const mapDispatchToProps = dispatch => ({
-  loginUser: credentials => dispatch(login(credentials)),
-  logoutUser: () => dispatch(logout())
+  loginUser: credentials => dispatch(login(credentials))
 });
 
 const LoginForm = ({ setRedirect, hasLabel, layout, auth, loginUser, logoutUser }) => {
@@ -26,24 +25,21 @@ const LoginForm = ({ setRedirect, hasLabel, layout, auth, loginUser, logoutUser 
   const [remember, setRemember] = useState(true);
   const [isDisabled, setIsDisabled] = useState(true);
 
-  const isLoggedIn = useSelector(state => state.isLoggedIn);
+  // const isLoggedIn = useSelector(state => state.isLoggedIn);
+
+  useEffect(() => {
+    setIsDisabled(!username || !password);
+  }, [username, password]);
 
   // Handler
   const handleSubmit = async e => {
     e.preventDefault();
     if (username && password) {
-      loginUser({ username, password });
+      toast.success(`Logged in as ${username}`);
+      await loginUser({ username, password });
+      setRedirect(true);
     }
   };
-
-  if (isLoggedIn) {
-    toast.success(`Logged in as ${username}`);
-    setRedirect(true);
-  }
-
-  useEffect(() => {
-    setIsDisabled(!username || !password);
-  }, [username, password]);
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -100,8 +96,8 @@ LoginForm.propTypes = {
     isLoggendIn: PropTypes.bool.isRequired,
     user: PropTypes.string
   }).isRequired,
-  loginUser: PropTypes.func.isRequired,
-  logoutUser: PropTypes.func.isRequired
+  loginUser: PropTypes.func.isRequired
+  // logoutUser: PropTypes.func.isRequired
 };
 
 LoginForm.defaultProps = {

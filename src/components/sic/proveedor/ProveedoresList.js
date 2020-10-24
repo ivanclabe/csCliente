@@ -1,4 +1,7 @@
-import React, { createRef, Fragment, useState } from 'react';
+/* eslint-disable react/display-name */
+/* eslint-disable react/prop-types */
+import React, { createRef, Fragment, useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import paginationFactory, { PaginationProvider } from 'react-bootstrap-table2-paginator';
 import BootstrapTable from 'react-bootstrap-table-next';
 import {
@@ -14,15 +17,25 @@ import {
   Row,
   UncontrolledDropdown
 } from 'reactstrap';
-import ButtonIcon from '../common/ButtonIcon';
+import ButtonIcon from '../../common/ButtonIcon';
 import { Link } from 'react-router-dom';
 import Badge from 'reactstrap/es/Badge';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import FalconCardHeader from '../common/FalconCardHeader';
-import orders from '../../data/e-commerce/orders';
-import { getPaginationArray } from '../../helpers/utils';
+import FalconCardHeader from '../../common/FalconCardHeader';
+import orders from '../../../data/e-commerce/orders';
+import { getPaginationArray } from '../../../helpers/utils';
+import { fecthProveedores } from '../../../redux/actions/proveedor';
+// import PropTypes from 'prop-types';
 
-const orderFormatter = (dataField, { id, name, email }: row) => (
+// const mapStateToProps = state => {
+//   return { proveedores: state.proveedores };
+// };
+
+// const mapDispatchToProps = dispatch => ({
+//   fecthProveedores: () => dispatch(fecthProveedores())
+// });
+
+const orderFormatter = (dataField, { id, name, email }) => (
   <Fragment>
     <Link to="/e-commerce/order-details">
       <strong>#{id}</strong>
@@ -33,7 +46,7 @@ const orderFormatter = (dataField, { id, name, email }: row) => (
   </Fragment>
 );
 
-const shippingFormatter = (address, { shippingType }: row) => (
+const shippingFormatter = (address, { shippingType }) => (
   <Fragment>
     {address}
     <p className="mb-0 text-500">{shippingType}</p>
@@ -88,7 +101,7 @@ const amountFormatter = amount => {
   );
 };
 
-const actionFormatter = (dataField, { id }: row) => (
+const actionFormatter = (dataField, { id }) => (
   // Control your row with this id
   <UncontrolledDropdown>
     <DropdownToggle color="link" size="sm" className="text-600 btn-reveal mr-3">
@@ -155,8 +168,7 @@ const columns = [
 
 const options = {
   custom: true,
-  sizePerPage: 10,
-  totalSize: orders.length
+  sizePerPage: 10
 };
 
 const SelectRowInput = ({ indeterminate, rowIndex, ...rest }) => (
@@ -177,16 +189,30 @@ const selectRow = onSelect => ({
   mode: 'checkbox',
   classes: 'py-2 align-middle',
   clickToSelect: false,
-  selectionHeaderRenderer: ({ mode, ...rest }) => <SelectRowInput type="checkbox" {...rest} />,
+  // eslint-disable-next-line react/display-name
+  selectionHeaderRenderer: ({ mode, ...rest }) => {
+    return <SelectRowInput type="checkbox" {...rest} />;
+  },
   selectionRenderer: ({ mode, ...rest }) => <SelectRowInput type={mode} {...rest} />,
   onSelect: onSelect,
   onSelectAll: onSelect
 });
 
-const Orders = () => {
+export default () => {
+  const [proveedores, setProveedores] = useState([]);
+  // const proveedores = useSelector(state => state.proveedores);
+  const dispatch = useDispatch();
+
   let table = createRef();
+
   // State
   const [isSelected, setIsSelected] = useState(false);
+
+  // Effect
+  useEffect(() => {
+    dispatch(fecthProveedores());
+  });
+
   const handleNextPage = ({ page, onPageChange }) => () => {
     onPageChange(page + 1);
   };
@@ -203,7 +229,7 @@ const Orders = () => {
 
   return (
     <Card className="mb-3">
-      <FalconCardHeader title="Orders" light={false}>
+      <FalconCardHeader title="Proveedores" light={false}>
         {isSelected ? (
           <InputGroup size="sm" className="input-group input-group-sm">
             <CustomInput type="select" id="bulk-select">
@@ -242,7 +268,9 @@ const Orders = () => {
         )}
       </FalconCardHeader>
       <CardBody className="p-0">
-        <PaginationProvider pagination={paginationFactory(options)}>
+        <PaginationProvider
+          pagination={paginationFactory({ ...options, totalSize: proveedores.length })}
+        >
           {({ paginationProps, paginationTableProps }) => {
             const lastIndex = paginationProps.page * paginationProps.sizePerPage;
 
@@ -253,7 +281,7 @@ const Orders = () => {
                     ref={table}
                     bootstrap4
                     keyField="id"
-                    data={orders}
+                    data={proveedores}
                     columns={columns}
                     selectRow={selectRow(onSelect)}
                     bordered={false}
@@ -308,4 +336,12 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+// ProveedoresList.propTypes = {
+//   proveedores: PropTypes.shape().isRequired,
+//   fecthProveedores: PropTypes.func.isRequired
+// };
+
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(ProveedoresList);

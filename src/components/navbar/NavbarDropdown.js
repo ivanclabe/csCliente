@@ -2,7 +2,17 @@ import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
-import { Badge, Card, CardBody, Col, DropdownItem, DropdownMenu, DropdownToggle, Row, Dropdown } from 'reactstrap';
+import {
+  Badge,
+  Card,
+  CardBody,
+  Col,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  Row,
+  Dropdown
+} from 'reactstrap';
 import AuthCornerImage from '../../assets/img/illustrations/authentication-corner.png';
 import { breakpoints, routesSlicer } from '../../helpers/utils';
 import { topNavbarBreakpoint } from '../../config';
@@ -102,7 +112,11 @@ const NavbarDropdown = ({ title, items, right, children, handleSetNavbarCollapse
 
                             return (
                               <Fragment key={`${index}-${i}`}>
-                                {title && <div className="nav-link py-1 pl-0 text-900 font-weight-bold">{title}</div>}
+                                {title && (
+                                  <div className="nav-link py-1 pl-0 text-900 font-weight-bold">
+                                    {title}
+                                  </div>
+                                )}
                                 <DropdownItem
                                   tag={Link}
                                   to={navItem.to}
@@ -112,7 +126,11 @@ const NavbarDropdown = ({ title, items, right, children, handleSetNavbarCollapse
                                 >
                                   {navItem.name}
                                   {navItem.badge && (
-                                    <Badge color={navItem.badge.color || 'soft-success'} pill className="ml-2">
+                                    <Badge
+                                      color={navItem.badge.color || 'soft-success'}
+                                      pill
+                                      className="ml-2"
+                                    >
                                       {navItem.badge.text}
                                     </Badge>
                                   )}

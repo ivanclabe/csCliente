@@ -16,7 +16,9 @@ import bgNavbarImg from '../../assets/img/generic/bg-navbar.png';
 const NavbarVertical = ({ navbarStyle }) => {
   const navBarRef = useRef(null);
 
-  const { showBurgerMenu, isNavbarVerticalCollapsed, setIsNavbarVerticalCollapsed } = useContext(AppContext);
+  const { showBurgerMenu, isNavbarVerticalCollapsed, setIsNavbarVerticalCollapsed } = useContext(
+    AppContext
+  );
 
   const HTMLClassList = document.getElementsByTagName('html')[0].classList;
   //Control Component did mount and unmounted of hover effect

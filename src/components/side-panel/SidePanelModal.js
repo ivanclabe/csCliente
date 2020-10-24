@@ -2,7 +2,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect } from 'react';
 import classNames from 'classnames';
-import { Button, CustomInput, Modal, ModalHeader, ButtonGroup, Label, Media, Badge } from 'reactstrap';
+import {
+  Button,
+  CustomInput,
+  Modal,
+  ModalHeader,
+  ButtonGroup,
+  Label,
+  Media,
+  Badge
+} from 'reactstrap';
 import AppContext from '../../context/Context';
 import defaultModeImg from '../../assets/img/generic/falcon-mode-default.jpg';
 import darkModeImg from '../../assets/img/generic/falcon-mode-dark.jpg';
@@ -79,7 +88,10 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, p
         <h5 className="fs-0">Color Scheme</h5>
         <p className="fs--1">Choose the perfect color mode for your app.</p>
         <ButtonGroup className="btn-group-toggle btn-block">
-          <Button color="theme-default" className={classNames('custom-radio-success', { active: !isDark })}>
+          <Button
+            color="theme-default"
+            className={classNames('custom-radio-success', { active: !isDark })}
+          >
             <Label for="theme-mode-default" className="cursor-pointer hover-overlay">
               <img className="w-100" src={defaultModeImg} alt="" />
             </Label>
@@ -91,7 +103,10 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, p
               onChange={({ target }) => setIsDark(!target.checked)}
             />
           </Button>
-          <Button color="theme-dark" className={classNames('custom-radio-success', { active: isDark })}>
+          <Button
+            color="theme-dark"
+            className={classNames('custom-radio-success', { active: isDark })}
+          >
             <Label for="theme-mode-dark" className="cursor-pointer hover-overlay">
               <img className="w-100" src={darkModeImg} alt="" />
             </Label>
@@ -150,7 +165,9 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, p
                 New
               </Badge>
             </Flex>
-            <p className="fs--1 mb-2">Select a suitable navigation system for your web application</p>
+            <p className="fs--1 mb-2">
+              Select a suitable navigation system for your web application
+            </p>
             <CustomInput
               type="radio"
               id="verticalNav-radio"
@@ -191,7 +208,9 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, p
         <div className="text-center mt-5">
           <img src={settings} alt="settings" width={120} className="mb-4" />
           <h5>Like What You See?</h5>
-          <p className="fs--1">Get Falcon now and create beautiful dashboards with hundreds of widgets.</p>
+          <p className="fs--1">
+            Get Falcon now and create beautiful dashboards with hundreds of widgets.
+          </p>
           <Button
             color="primary"
             href="https://themes.getbootstrap.com/product/falcon-admin-dashboard-webapp-template-react/"

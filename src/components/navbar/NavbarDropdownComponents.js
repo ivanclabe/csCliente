@@ -1,7 +1,17 @@
 import PropTypes from 'prop-types';
 import React, { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Badge, Card, CardBody, Col, DropdownItem, DropdownMenu, DropdownToggle, Row, Dropdown } from 'reactstrap';
+import {
+  Badge,
+  Card,
+  CardBody,
+  Col,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  Row,
+  Dropdown
+} from 'reactstrap';
 import { breakpoints, isIterableArray, routesSlicer } from '../../helpers/utils';
 import { topNavbarBreakpoint } from '../../config';
 
@@ -45,7 +55,9 @@ const NavbarDropdownComponents = ({ title, items, right, handleSetNavbarCollapse
                   return (
                     <Fragment key={index}>
                       {index !== 0 && (
-                        <div className="nav-link pl-0 py-1 text-900 font-weight-bold">{items[index].name}</div>
+                        <div className="nav-link pl-0 py-1 text-900 font-weight-bold">
+                          {items[index].name}
+                        </div>
                       )}
                       <Row className={index + 1 === items.length ? 'mb-0' : 'mb-3'}>
                         {NavItemGroup.map((navItems, i) => {
@@ -63,7 +75,11 @@ const NavbarDropdownComponents = ({ title, items, right, handleSetNavbarCollapse
                                     >
                                       {navItem.name}
                                       {navItem.badge && (
-                                        <Badge color={navItem.badge.color || 'soft-success'} pill className="ml-2">
+                                        <Badge
+                                          color={navItem.badge.color || 'soft-success'}
+                                          pill
+                                          className="ml-2"
+                                        >
                                           {navItem.badge.text}
                                         </Badge>
                                       )}

@@ -11,7 +11,9 @@ const withRedirect = OriginalComponent => {
       return <Redirect to={redirectUrl} />;
     }
 
-    return <OriginalComponent setRedirect={setRedirect} setRedirectUrl={setRedirectUrl} {...props} />;
+    return (
+      <OriginalComponent setRedirect={setRedirect} setRedirectUrl={setRedirectUrl} {...props} />
+    );
   };
 
   return UpdatedComponent;

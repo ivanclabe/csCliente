@@ -2,7 +2,16 @@ import React, { useState } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
-import { Card, CardBody, Modal, ModalBody, Nav, NavItem, NavLink, UncontrolledTooltip } from 'reactstrap';
+import {
+  Card,
+  CardBody,
+  Modal,
+  ModalBody,
+  Nav,
+  NavItem,
+  NavLink,
+  UncontrolledTooltip
+} from 'reactstrap';
 
 import Login from '../auth/basic/Login';
 import Registration from '../auth/basic/Registration';
@@ -17,7 +26,11 @@ const LandingRightSideNavItem = () => {
     <Nav navbar className="ml-auto">
       <NavItem>
         <NavLink tag={Link} to="/">
-          <FontAwesomeIcon icon="chart-pie" id="dashboardTooltip" className={`d-none d-${breakpoint}-inline-block`} />
+          <FontAwesomeIcon
+            icon="chart-pie"
+            id="dashboardTooltip"
+            className={`d-none d-${breakpoint}-inline-block`}
+          />
           <UncontrolledTooltip placement="bottom" target="dashboardTooltip">
             Dashboard
           </UncontrolledTooltip>
@@ -26,7 +39,11 @@ const LandingRightSideNavItem = () => {
       </NavItem>
       <NavItem>
         <NavLink tag={Link} to="/documentation">
-          <FontAwesomeIcon icon="book" id="documentationTooltip" className={`d-none d-${breakpoint}-inline-block`} />
+          <FontAwesomeIcon
+            icon="book"
+            id="documentationTooltip"
+            className={`d-none d-${breakpoint}-inline-block`}
+          />
           <UncontrolledTooltip placement="bottom" target="documentationTooltip">
             Documentation
           </UncontrolledTooltip>
@@ -41,10 +58,18 @@ const LandingRightSideNavItem = () => {
         </Card>
       </NavbarDropdown>
       <NavItem>
-        <NavLink tag={Link} to="#!" onClick={() => setShowRegistrationModal(!showRegistrationModal)}>
+        <NavLink
+          tag={Link}
+          to="#!"
+          onClick={() => setShowRegistrationModal(!showRegistrationModal)}
+        >
           Register
         </NavLink>
-        <Modal isOpen={showRegistrationModal} centered toggle={() => setShowRegistrationModal(!showRegistrationModal)}>
+        <Modal
+          isOpen={showRegistrationModal}
+          centered
+          toggle={() => setShowRegistrationModal(!showRegistrationModal)}
+        >
           <ModalBody className="p-0">
             <Card>
               <CardBody className="fs--1 font-weight-normal p-4">

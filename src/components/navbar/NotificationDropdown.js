@@ -13,8 +13,12 @@ import Notification from '../notification/Notification';
 
 const NotificationDropdown = () => {
   // State
-  const { data: newNotifications, setData: setNewNotifications } = useFakeFetch(rawNewNotifications);
-  const { data: earlierNotifications, setData: setEarlierNotifications } = useFakeFetch(rawEarlierNotifications);
+  const { data: newNotifications, setData: setNewNotifications } = useFakeFetch(
+    rawNewNotifications
+  );
+  const { data: earlierNotifications, setData: setEarlierNotifications } = useFakeFetch(
+    rawEarlierNotifications
+  );
   const [isOpen, setIsOpen] = useState(false);
   const [isAllRead, setIsAllRead] = useState(false);
 
@@ -75,7 +79,12 @@ const NotificationDropdown = () => {
       </DropdownToggle>
       <DropdownMenu right className="dropdown-menu-card">
         <Card className="card-notification shadow-none" style={{ maxWidth: '20rem' }}>
-          <FalconCardHeader className="card-header" title="Notifications" titleTag="h6" light={false}>
+          <FalconCardHeader
+            className="card-header"
+            title="Notifications"
+            titleTag="h6"
+            light={false}
+          >
             <Link className="card-link font-weight-normal" to="#!" onClick={markAsRead}>
               Mark all as read
             </Link>

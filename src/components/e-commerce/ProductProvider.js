@@ -10,7 +10,9 @@ const promoCodes = [{ code: 'GET20', discount: 20 }, { code: 'GET50', discount: 
 
 const ProductProvider = ({ children }) => {
   // Reducer
-  const [products, productsDispatch] = useReducer(arrayReducer, [], () => getItemFromStore('products', rawProducts));
+  const [products, productsDispatch] = useReducer(arrayReducer, [], () =>
+    getItemFromStore('products', rawProducts)
+  );
   const [shoppingCart, shoppingCartDispatch] = useReducer(arrayReducer, [], () =>
     getItemFromStore('shoppingCart', [
       { id: rawProducts[0].id, quantity: 3 },
@@ -32,7 +34,8 @@ const ProductProvider = ({ children }) => {
   const [cartModal, setCartModal] = useState(null);
 
   // Helper
-  const isInShoppingCart = id => !!shoppingCart.find(shoppingCartItem => shoppingCartItem.id === id);
+  const isInShoppingCart = id =>
+    !!shoppingCart.find(shoppingCartItem => shoppingCartItem.id === id);
   const isInFavouriteItems = id => !!favouriteItems.find(favouriteItem => favouriteItem.id === id);
   const applyPromoCode = promoCode => {
     // Get your promo codes from your sources
@@ -63,7 +66,11 @@ const ProductProvider = ({ children }) => {
       shoppingCartDispatch({
         id,
         type: 'EDIT',
-        payload: { id, quantity: quantity + shoppingCart.find(shoppingCartItem => shoppingCartItem.id === id).quantity }
+        payload: {
+          id,
+          quantity:
+            quantity + shoppingCart.find(shoppingCartItem => shoppingCartItem.id === id).quantity
+        }
       });
     }
     // Modal control
