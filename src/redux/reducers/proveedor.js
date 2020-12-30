@@ -1,8 +1,4 @@
-import {
-  PROVEEDOR_ADDS,
-  PROVEEDOR_FAILED,
-  PROVEEDOR_LOADING
-} from '../../constants/proveedor.constants';
+import { PROVEEDOR_ADDS, PROVEEDOR_FAILED, PROVEEDOR_LOADING } from '../types';
 
 const initialState = {
   isLoading: false,

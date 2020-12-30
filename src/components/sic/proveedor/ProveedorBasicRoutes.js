@@ -7,7 +7,7 @@ const ProveedorBasicRoutes = ({ match: { url } }) => (
   <Switch>
     <Route path={`${url}/list`} exact component={ProveedoresList} />
     <Route path={`${url}/new`} exact />
-    <Route path={`${url}/:proveedor_id/edit`} exact />
+    <Route path={`${url}/:proveedorId/edit`} exact />
     {/*Redirect*/}
     <Redirect to="/errors/404" />
   </Switch>

@@ -1,4 +1,4 @@
-import { LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT_SUCCESS } from '../../constants';
+import { LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT_SUCCESS } from '../types';
 import * as authService from '../../services/auth.service';
 
 export const loginRequest = credentials => ({
@@ -6,7 +6,7 @@ export const loginRequest = credentials => ({
   payload: credentials
 });
 
-export const receiveLogin = token => ({
+export const receiveLogin = ({ token }) => ({
   type: LOGIN_SUCCESS,
   payload: {
     token
@@ -27,7 +27,7 @@ export const login = ({ username, password }) => dispatch => {
   return authService
     .login(username, password)
     .then(response => {
-      dispatch(receiveLogin(response, username));
+      dispatch(receiveLogin(response));
       Promise.resolve();
     })
     .catch(error => {

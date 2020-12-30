@@ -2,17 +2,17 @@ import axios from '../config/axios.config';
 import authHeader from './auth-header';
 
 export const proveedoresList = () => {
+  const headers = authHeader();
   return axios
     .get('/proveedores', {
-      headers: { ...authHeader }
+      headers: { ...headers }
     })
     .then(response => {
-      const { data, status, statusText } = response;
-      if (data.success) {
-        return data;
-      } else {
-        const error = new Error('Error ' + status + ': ' + statusText);
-        throw error;
-      }
+      const { data } = response;
+      return data.rows;
+    })
+    .catch(err => {
+      const error = new Error(err.message);
+      throw error;
     });
 };

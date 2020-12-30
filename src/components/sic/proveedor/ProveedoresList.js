@@ -22,25 +22,16 @@ import { Link } from 'react-router-dom';
 import Badge from 'reactstrap/es/Badge';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FalconCardHeader from '../../common/FalconCardHeader';
-import orders from '../../../data/e-commerce/orders';
 import { getPaginationArray } from '../../../helpers/utils';
 import { fecthProveedores } from '../../../redux/actions/proveedor';
-// import PropTypes from 'prop-types';
 
-// const mapStateToProps = state => {
-//   return { proveedores: state.proveedores };
-// };
-
-// const mapDispatchToProps = dispatch => ({
-//   fecthProveedores: () => dispatch(fecthProveedores())
-// });
-
-const orderFormatter = (dataField, { id, name, email }) => (
+const orderFormatter = (dataField, { id, didTipo, did, nombre, email }) => (
   <Fragment>
+    {didTipo}.
     <Link to="/e-commerce/order-details">
-      <strong>#{id}</strong>
+      <strong>#{did}</strong>
     </Link>{' '}
-    by <strong>{name}</strong>
+    - <strong>{nombre}</strong>
     <br />
     <a href={`mailto:${email}`}>{email}</a>
   </Fragment>
@@ -123,7 +114,7 @@ const actionFormatter = (dataField, { id }) => (
 const columns = [
   {
     dataField: 'id',
-    text: 'Order',
+    text: 'Nombre',
     classes: 'py-2 align-middle',
     formatter: orderFormatter,
     sort: true
@@ -199,8 +190,11 @@ const selectRow = onSelect => ({
 });
 
 export default () => {
-  const [proveedores, setProveedores] = useState([]);
-  // const proveedores = useSelector(state => state.proveedores);
+  const [tableName] = useState('Proveedores');
+  const { proveedores } = useSelector(({ proveedor }) => ({
+    isLoading: proveedor.isLoading,
+    proveedores: proveedor.proveedores
+  }));
   const dispatch = useDispatch();
 
   let table = createRef();
@@ -208,10 +202,11 @@ export default () => {
   // State
   const [isSelected, setIsSelected] = useState(false);
 
-  // Effect
+  // // Effect
   useEffect(() => {
+    console.log('onMount');
     dispatch(fecthProveedores());
-  });
+  }, []);
 
   const handleNextPage = ({ page, onPageChange }) => () => {
     onPageChange(page + 1);
@@ -229,7 +224,7 @@ export default () => {
 
   return (
     <Card className="mb-3">
-      <FalconCardHeader title="Proveedores" light={false}>
+      <FalconCardHeader title={tableName} light={false}>
         {isSelected ? (
           <InputGroup size="sm" className="input-group input-group-sm">
             <CustomInput type="select" id="bulk-select">
@@ -335,13 +330,3 @@ export default () => {
     </Card>
   );
 };
-
-// ProveedoresList.propTypes = {
-//   proveedores: PropTypes.shape().isRequired,
-//   fecthProveedores: PropTypes.func.isRequired
-// };
-
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(ProveedoresList);

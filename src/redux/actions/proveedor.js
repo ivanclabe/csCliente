@@ -1,8 +1,4 @@
-import {
-  PROVEEDOR_LOADING,
-  PROVEEDOR_FAILED,
-  PROVEEDOR_ADDS
-} from '../../constants/proveedor.constants';
+import { PROVEEDOR_LOADING, PROVEEDOR_FAILED, PROVEEDOR_ADDS } from '../types';
 import { proveedoresList } from '../../services/proveedor.service';
 
 export const proveedorRequest = () => ({
@@ -24,9 +20,9 @@ export const fecthProveedores = () => dispatch => {
   dispatch({ type: PROVEEDOR_LOADING });
   return proveedoresList()
     .then(response => {
-      console.log(response);
+      // console.log(response);
       dispatch(proveedorAdds(response));
-      Promise.resolve();
+      // Promise.resolve();
     })
     .catch(error => {
       dispatch(proveedorFailed(error.message));
