@@ -17,6 +17,7 @@ import {
   Row,
   UncontrolledDropdown
 } from 'reactstrap';
+import { useQuery } from '@apollo/client';
 import ButtonIcon from '../../common/ButtonIcon';
 import { Link } from 'react-router-dom';
 import Badge from 'reactstrap/es/Badge';
@@ -24,6 +25,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FalconCardHeader from '../../common/FalconCardHeader';
 import { getPaginationArray } from '../../../helpers/utils';
 import { fecthProveedores } from '../../../redux/actions/proveedor';
+import { GET_PROVEEDORES } from '../../../data/proveedor';
 
 const orderFormatter = (dataField, { id, didTipo, did, nombre, email }) => (
   <Fragment>
@@ -190,17 +192,20 @@ const selectRow = onSelect => ({
 });
 
 export default () => {
-  const [tableName] = useState('Proveedores');
-  const { proveedores } = useSelector(({ proveedor }) => ({
-    isLoading: proveedor.isLoading,
-    proveedores: proveedor.proveedores
-  }));
+  // const [tableName] = useState('Proveedores');
+  // const { proveedores } = useSelector(({ proveedor }) => ({
+  //   isLoading: proveedor.isLoading,
+  //   proveedores: proveedor.proveedores
+  // }));
+  const { loading, error, data } = useQuery(GET_PROVEEDORES, {
+    variables: { query: [], fisrt: 10 }
+  });
   const dispatch = useDispatch();
 
   let table = createRef();
 
   // State
-  const [isSelected, setIsSelected] = useState(false);
+  // const [isSelected, setIsSelected] = useState(false);
 
   // // Effect
   useEffect(() => {
@@ -208,23 +213,23 @@ export default () => {
     dispatch(fecthProveedores());
   }, []);
 
-  const handleNextPage = ({ page, onPageChange }) => () => {
-    onPageChange(page + 1);
-  };
+  // const handleNextPage = ({ page, onPageChange }) => () => {
+  //   onPageChange(page + 1);
+  // };
 
-  const handlePrevPage = ({ page, onPageChange }) => () => {
-    onPageChange(page - 1);
-  };
+  // const handlePrevPage = ({ page, onPageChange }) => () => {
+  //   onPageChange(page - 1);
+  // };
 
-  const onSelect = () => {
-    setImmediate(() => {
-      setIsSelected(!!table.current.selectionContext.selected.length);
-    });
-  };
+  // const onSelect = () => {
+  //   setImmediate(() => {
+  //     setIsSelected(!!table.current.selectionContext.selected.length);
+  //   });
+  // };
 
   return (
     <Card className="mb-3">
-      <FalconCardHeader title={tableName} light={false}>
+      {/* <FalconCardHeader title={tableName} light={false}>
         {isSelected ? (
           <InputGroup size="sm" className="input-group input-group-sm">
             <CustomInput type="select" id="bulk-select">
@@ -261,13 +266,16 @@ export default () => {
             </ButtonIcon>
           </Fragment>
         )}
-      </FalconCardHeader>
+      </FalconCardHeader> */}
       <CardBody className="p-0">
         <PaginationProvider
-          pagination={paginationFactory({ ...options, totalSize: proveedores.length })}
+          pagination={paginationFactory({ ...options, totalSize: data.totalCount })}
         >
           {({ paginationProps, paginationTableProps }) => {
             const lastIndex = paginationProps.page * paginationProps.sizePerPage;
+
+            if (loading) return null;
+            if (error) return `Error! ${error}`;
 
             return (
               <Fragment>
@@ -276,9 +284,9 @@ export default () => {
                     ref={table}
                     bootstrap4
                     keyField="id"
-                    data={proveedores}
+                    data={data}
                     columns={columns}
-                    selectRow={selectRow(onSelect)}
+                    // selectRow={selectRow(onSelect)}
                     bordered={false}
                     classes="table-dashboard table-striped table-sm fs--1 border-bottom mb-0 table-dashboard-th-nowrap"
                     rowClasses="btn-reveal-trigger"
@@ -286,7 +294,7 @@ export default () => {
                     {...paginationTableProps}
                   />
                 </div>
-                <Row noGutters className="px-1 py-3 flex-center">
+                {/* <Row noGutters className="px-1 py-3 flex-center">
                   <Col xs="auto">
                     <Button
                       color="falcon-default"
@@ -321,7 +329,7 @@ export default () => {
                       <FontAwesomeIcon icon="chevron-right" />
                     </Button>
                   </Col>
-                </Row>
+                </Row> */}
               </Fragment>
             );
           }}

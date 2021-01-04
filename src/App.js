@@ -6,18 +6,26 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import 'react-datetime/css/react-datetime.css';
 import 'react-image-lightbox/style.css';
 
+import ApolloClient from 'apollo-boost';
+import { ApolloProvider } from 'react-apollo';
+
 import { Provider } from 'react-redux';
 import store from './redux/store';
 
 // const store = ConfigureStore();
+const client = new ApolloClient({
+  uri: 'http://localhost:3000/api/graphql'
+});
 
 const App = () => {
   return (
-    <Provider store={store}>
-      <Router basename={process.env.PUBLIC_URL}>
-        <Layout />
-      </Router>
-    </Provider>
+    <ApolloProvider client={client}>
+      <Provider store={store}>
+        <Router basename={process.env.PUBLIC_URL}>
+          <Layout />
+        </Router>
+      </Provider>
+    </ApolloProvider>
   );
 };
 
