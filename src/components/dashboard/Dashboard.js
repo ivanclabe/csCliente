@@ -37,7 +37,13 @@ const Dashboard = () => {
         <CardSummary rate="0.0%" title="Orders" color="info" linkText="All orders">
           73.46k
         </CardSummary>
-        <CardSummary content="43,594" rate="9.54%" title="Revenue" color="success" linkText="Statistics">
+        <CardSummary
+          content="43,594"
+          rate="9.54%"
+          title="Revenue"
+          color="success"
+          linkText="Statistics"
+        >
           <CountUp end={43594} duration={5} prefix="$" separator="," decimal="." />
         </CardSummary>
       </div>
@@ -60,10 +66,21 @@ const Dashboard = () => {
               <ButtonIcon icon="plus" transform="shrink-3 down-2" color="falcon-default" size="sm">
                 New
               </ButtonIcon>
-              <ButtonIcon icon="filter" transform="shrink-3 down-2" color="falcon-default" size="sm" className="mx-2">
+              <ButtonIcon
+                icon="filter"
+                transform="shrink-3 down-2"
+                color="falcon-default"
+                size="sm"
+                className="mx-2"
+              >
                 Filter
               </ButtonIcon>
-              <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" size="sm">
+              <ButtonIcon
+                icon="external-link-alt"
+                transform="shrink-3 down-2"
+                color="falcon-default"
+                size="sm"
+              >
                 Export
               </ButtonIcon>
             </Fragment>

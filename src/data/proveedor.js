@@ -1,4 +1,4 @@
-import { gql } from 'apollo-boost';
+import { gql } from '@apollo/client';
 
 export const GET_PROVEEDORES = gql`
   query GetProveedores(
@@ -23,8 +23,15 @@ export const GET_PROVEEDORES = gql`
       edges {
         node {
           id
+          did
           nombre
         }
+      }
+      pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+        hasPreviousPage
       }
     }
   }

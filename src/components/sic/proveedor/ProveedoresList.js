@@ -1,116 +1,25 @@
 /* eslint-disable react/display-name */
 /* eslint-disable react/prop-types */
 import React, { createRef, Fragment, useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+// import { useDispatch, useSelector } from 'react-redux';
 import paginationFactory, { PaginationProvider } from 'react-bootstrap-table2-paginator';
 import BootstrapTable from 'react-bootstrap-table-next';
-import {
-  Button,
-  Card,
-  CardBody,
-  Col,
-  CustomInput,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  InputGroup,
-  Row,
-  UncontrolledDropdown
-} from 'reactstrap';
+import { Button, Card, CardBody, Col, CustomInput, InputGroup, Row } from 'reactstrap';
 import { useQuery } from '@apollo/client';
 import ButtonIcon from '../../common/ButtonIcon';
 import { Link } from 'react-router-dom';
-import Badge from 'reactstrap/es/Badge';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FalconCardHeader from '../../common/FalconCardHeader';
 import { getPaginationArray } from '../../../helpers/utils';
-import { fecthProveedores } from '../../../redux/actions/proveedor';
 import { GET_PROVEEDORES } from '../../../data/proveedor';
 
-const orderFormatter = (dataField, { id, didTipo, did, nombre, email }) => (
+const orderFormatter = (dataField, { id, nombre }) => (
   <Fragment>
-    {didTipo}.
     <Link to="/e-commerce/order-details">
-      <strong>#{did}</strong>
+      <strong>#{id}</strong>
     </Link>{' '}
     - <strong>{nombre}</strong>
-    <br />
-    <a href={`mailto:${email}`}>{email}</a>
   </Fragment>
-);
-
-const shippingFormatter = (address, { shippingType }) => (
-  <Fragment>
-    {address}
-    <p className="mb-0 text-500">{shippingType}</p>
-  </Fragment>
-);
-
-const badgeFormatter = status => {
-  let color = '';
-  let icon = '';
-  let text = '';
-  switch (status) {
-    case 'success':
-      color = 'success';
-      icon = 'check';
-      text = 'Completed';
-      break;
-    case 'hold':
-      color = 'secondary';
-      icon = 'ban';
-      text = 'On hold';
-      break;
-    case 'processing':
-      color = 'primary';
-      icon = 'redo';
-      text = 'Processing';
-      break;
-    case 'pending':
-      color = 'warning';
-      icon = 'stream';
-      text = 'Pending';
-      break;
-    default:
-      color = 'warning';
-      icon = 'stream';
-      text = 'Pending';
-  }
-
-  return (
-    <Badge color={`soft-${color}`} className="rounded-capsule fs--1 d-block">
-      {text}
-      <FontAwesomeIcon icon={icon} transform="shrink-2" className="ml-1" />
-    </Badge>
-  );
-};
-
-const amountFormatter = amount => {
-  return (
-    <Fragment>
-      {'$'}
-      {amount}
-    </Fragment>
-  );
-};
-
-const actionFormatter = (dataField, { id }) => (
-  // Control your row with this id
-  <UncontrolledDropdown>
-    <DropdownToggle color="link" size="sm" className="text-600 btn-reveal mr-3">
-      <FontAwesomeIcon icon="ellipsis-h" className="fs--1" />
-    </DropdownToggle>
-    <DropdownMenu right className="border py-2">
-      <DropdownItem onClick={() => console.log('Completed: ', id)}>Completed</DropdownItem>
-      <DropdownItem onClick={() => console.log('Processing: ', id)}>Processing</DropdownItem>
-      <DropdownItem onClick={() => console.log('On hold: ', id)}>On hold</DropdownItem>
-      <DropdownItem onClick={() => console.log('Pending: ', id)}>Pending</DropdownItem>
-      <DropdownItem divider />
-      <DropdownItem onClick={() => console.log('Delete: ', id)} className="text-danger">
-        Delete
-      </DropdownItem>
-    </DropdownMenu>
-  </UncontrolledDropdown>
 );
 
 const columns = [
@@ -120,42 +29,6 @@ const columns = [
     classes: 'py-2 align-middle',
     formatter: orderFormatter,
     sort: true
-  },
-  {
-    dataField: 'date',
-    text: 'Date',
-    classes: 'py-2 align-middle',
-    sort: true
-  },
-  {
-    dataField: 'address',
-    text: 'Ship to',
-    classes: 'py-2 align-middle',
-    formatter: shippingFormatter,
-    sort: true
-  },
-  {
-    dataField: 'status',
-    text: 'Status',
-    classes: 'py-2 align-middle',
-    formatter: badgeFormatter,
-    sort: true
-  },
-  {
-    dataField: 'amount',
-    text: 'Amount',
-    classes: 'py-2 align-middle',
-    formatter: amountFormatter,
-    sort: true,
-    align: 'right',
-    headerAlign: 'right'
-  },
-  {
-    dataField: '',
-    text: '',
-    classes: 'py-2 align-middle',
-    formatter: actionFormatter,
-    align: 'right'
   }
 ];
 
@@ -192,44 +65,46 @@ const selectRow = onSelect => ({
 });
 
 export default () => {
-  // const [tableName] = useState('Proveedores');
-  // const { proveedores } = useSelector(({ proveedor }) => ({
-  //   isLoading: proveedor.isLoading,
-  //   proveedores: proveedor.proveedores
-  // }));
+  const table = createRef();
   const { loading, error, data } = useQuery(GET_PROVEEDORES, {
-    variables: { query: [], fisrt: 10 }
+    variables: { query: [], first: 20 }
   });
-  const dispatch = useDispatch();
-
-  let table = createRef();
+  console.log(loading);
 
   // State
-  // const [isSelected, setIsSelected] = useState(false);
+  const [proveedores, setProveedores] = useState([]);
+  const [isSelected, setIsSelected] = useState(false);
 
   // // Effect
   useEffect(() => {
-    console.log('onMount');
-    dispatch(fecthProveedores());
-  }, []);
+    if (!data) return;
+    setProveedores(data.getProveedores.edges);
+  }, [data]);
 
-  // const handleNextPage = ({ page, onPageChange }) => () => {
-  //   onPageChange(page + 1);
-  // };
+  const handleNextPage = ({ page, onPageChange }) => () => {
+    onPageChange(page + 1);
+  };
 
-  // const handlePrevPage = ({ page, onPageChange }) => () => {
-  //   onPageChange(page - 1);
-  // };
+  const handlePrevPage = ({ page, onPageChange }) => () => {
+    onPageChange(page - 1);
+  };
 
-  // const onSelect = () => {
-  //   setImmediate(() => {
-  //     setIsSelected(!!table.current.selectionContext.selected.length);
-  //   });
-  // };
+  const onSelect = () => {
+    setImmediate(() => {
+      setIsSelected(!!table.current.selectionContext.selected.length);
+    });
+  };
+
+  if (loading) {
+    return <p>Loading ...</p>;
+  }
+  if (error) {
+    return <p>{error.message}</p>;
+  }
 
   return (
     <Card className="mb-3">
-      {/* <FalconCardHeader title={tableName} light={false}>
+      <FalconCardHeader title="Proveedores" light={false}>
         {isSelected ? (
           <InputGroup size="sm" className="input-group input-group-sm">
             <CustomInput type="select" id="bulk-select">
@@ -266,16 +141,13 @@ export default () => {
             </ButtonIcon>
           </Fragment>
         )}
-      </FalconCardHeader> */}
+      </FalconCardHeader>
       <CardBody className="p-0">
         <PaginationProvider
-          pagination={paginationFactory({ ...options, totalSize: data.totalCount })}
+          pagination={paginationFactory({ ...options, totalSize: data.getProveedores.totalCount })}
         >
           {({ paginationProps, paginationTableProps }) => {
             const lastIndex = paginationProps.page * paginationProps.sizePerPage;
-
-            if (loading) return null;
-            if (error) return `Error! ${error}`;
 
             return (
               <Fragment>
@@ -284,9 +156,9 @@ export default () => {
                     ref={table}
                     bootstrap4
                     keyField="id"
-                    data={data}
+                    data={proveedores}
                     columns={columns}
-                    // selectRow={selectRow(onSelect)}
+                    selectRow={selectRow(onSelect)}
                     bordered={false}
                     classes="table-dashboard table-striped table-sm fs--1 border-bottom mb-0 table-dashboard-th-nowrap"
                     rowClasses="btn-reveal-trigger"
@@ -294,7 +166,7 @@ export default () => {
                     {...paginationTableProps}
                   />
                 </div>
-                {/* <Row noGutters className="px-1 py-3 flex-center">
+                <Row noGutters className="px-1 py-3 flex-center">
                   <Col xs="auto">
                     <Button
                       color="falcon-default"
@@ -329,7 +201,7 @@ export default () => {
                       <FontAwesomeIcon icon="chevron-right" />
                     </Button>
                   </Col>
-                </Row> */}
+                </Row>
               </Fragment>
             );
           }}
