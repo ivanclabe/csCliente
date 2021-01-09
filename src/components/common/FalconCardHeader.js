@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Col, CardHeader, Row } from 'reactstrap';
 import classNames from 'classnames';
 
+// eslint-disable-next-line react/prop-types
 const Title = ({ titleTag: TitleTag, className, breakPoint, children }) => (
   <TitleTag
     className={classNames(
@@ -26,7 +27,15 @@ Title.propsType = {
 
 Title.defaultProps = { titleTag: 'h5' };
 
-const FalconCardHeader = ({ title, light, titleTag, titleClass, className, breakPoint, children }) => (
+const FalconCardHeader = ({
+  title,
+  light,
+  titleTag,
+  titleClass,
+  className,
+  breakPoint,
+  children
+}) => (
   <CardHeader className={classNames({ 'bg-light': light }, className)}>
     {children ? (
       <Row className="align-items-center">

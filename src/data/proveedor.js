@@ -25,6 +25,17 @@ export const GET_PROVEEDORES = gql`
           id
           did
           nombre
+          email
+          direccion
+          telefono
+          ciudad {
+            id
+            nombre
+            depto {
+              id
+              nombre
+            }
+          }
         }
       }
       pageInfo {
